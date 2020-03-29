@@ -5,8 +5,8 @@ const express = require('express')
 const app = express()
 const port = 3000
 
-const clientId = process.argv[2]
-const clientSecret = process.argv[3]
+const clientId = "625855840713-td1tr0qsa3m5vgjssmsmjgqq4ksc9jci.apps.googleusercontent.com"
+const clientSecret = "dYdxo9svGvVA24j8zgbCvmUO"
 
 app.use(express.static('public'))
 
@@ -14,7 +14,7 @@ app.get('/clientId', (req, res) => {
   res.send(JSON.stringify({ clientId }))
 })
 
-app.get('/oauth2callback', handleOAuth2)
+app.get('/loggedin', handleOAuth2)
 async function handleOAuth2(req, res) {
   const tokenResponse = await fetch(
     `https://www.googleapis.com/oauth2/v4/token`,
@@ -24,7 +24,7 @@ async function handleOAuth2(req, res) {
         code: req.query.code,
         client_id: clientId,
         client_secret: clientSecret,
-        redirect_uri: 'http://localhost:3000/oauth2callback',
+        redirect_uri: 'http://localhost:3000/loggedin',
         grant_type: 'authorization_code'
       })
     }
